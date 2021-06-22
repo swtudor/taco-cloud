@@ -3,8 +3,10 @@ package com.example.tacocloud.web;
 import com.example.tacocloud.Ingredient;
 import com.example.tacocloud.Taco;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.tacocloud.Ingredient.Type;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -41,6 +45,15 @@ public class DesignTacoController {
         }
         model.addAttribute("design", new Taco());
         return "design";
+    }
+
+    @PostMapping
+    public String processDesign(@Valid Taco taco, Errors error){
+        if(error.hasErrors()){
+            return "design";
+        }
+        log.info("Processing taco design for " + taco.getName());
+        return "redirect:/orders/current";
     }
 
     private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type){
