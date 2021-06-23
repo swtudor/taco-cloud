@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,8 +24,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/design")
 public class DesignTacoController {
-    @GetMapping
-    public String showDesignForm(Model model){
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Type.WRAP),
@@ -40,16 +41,21 @@ public class DesignTacoController {
                 new Ingredient("VERD", "Salsa Verde", Type.SAUCE)
         );
         Type[] types = Ingredient.Type.values();
-        for(Type type : types){
+        for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
+    }
+
+    @GetMapping
+    public String showDesignForm(Model model){
         model.addAttribute("design", new Taco());
         return "design";
     }
 
     @PostMapping
-    public String processDesign(@Valid Taco taco, Errors error){
+    public String processDesign(@Valid @ModelAttribute("design") Taco taco, Errors error){
         if(error.hasErrors()){
+            log.info("BOOOOOOOOO - your taco order failed" );
             return "design";
         }
         log.info("Processing taco design for " + taco.getName());
