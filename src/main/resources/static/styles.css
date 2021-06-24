@@ -27,3 +27,12 @@ div.ingredient-group {
 span.validationError {
 	color: red;
 }
+.form-img {
+    width: 220px;
+}
+.box{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+}
