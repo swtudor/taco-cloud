@@ -8,7 +8,7 @@
 <body>
 <div class="box">
 <h1>Design your taco!</h1>
-<img th:src="@{/images/taco.png}"/>
+<img class="form-img" th:src="@{/images/taco.png}"/>
 
 <form method="post" th:object="${design}">
     <div th:if="${#fields.hasErrors()}">
@@ -22,7 +22,8 @@
         <span class="validationError"
               th:if="${#fields.hasErrors('ingredients')}"
               th:errors="*{ingredients}">Ingredient Error</span>
-        <div clas="ingredient-group" id="wraps">
+
+        <div class="ingredient-group" id="wraps">
             <h3>How do you want to wrap your taco (no blankets allowed)?</h3>
             <div th:each="ingredient : ${wrap}">
                 <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
@@ -31,7 +32,7 @@
             </div>
         </div>
 
-        <div clas="ingredient-group" id="proteins">
+        <div class="ingredient-group" id="proteins">
             <h3>Pick your protein</h3>
             <div th:each="ingredient : ${protein}">
                 <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
@@ -40,7 +41,7 @@
             </div>
         </div>
 
-        <div clas="ingredient-group" id="cheeses">
+        <div class="ingredient-group" id="cheeses">
             <h3>Cheese please?</h3>
             <div th:each="ingredient : ${cheese}">
                 <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
@@ -49,7 +50,7 @@
             </div>
         </div>
 
-        <div clas="ingredient-group" id="veggies">
+        <div class="ingredient-group" id="veggies">
             <h3>Veggies?</h3>
             <div th:each="ingredient : ${veggies}">
                 <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
@@ -58,7 +59,7 @@
             </div>
         </div>
 
-        <div clas="ingredient-group" id="sauces">
+        <div class="ingredient-group" id="sauces">
             <h3>Sauce it up!</h3>
             <div th:each="ingredient : ${sauce}">
                 <input name="ingredients" type="checkbox" th:value="${ingredient.id}"/>
