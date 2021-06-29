@@ -17,7 +17,7 @@ public class Taco {
 
     @NotNull(message="You must have at least 2 ingredients to make a taco")
     @Size(min=2, message= "Pick a minimum of two ingredients")
-//    @ManyToMany(targetEntity = Ingredient.class)
+    @ManyToMany(targetEntity = Ingredient.class)
     private List<String> ingredients;
 
     @Id
