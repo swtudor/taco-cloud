@@ -27,23 +27,28 @@ public class DesignTacoController {
     private final TacoRepository tacoRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository){
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
         this.tacoRepository = tacoRepository;
     }
-    @ModelAttribute(name="order")
-    public Order order(){ return new Order();}
 
-    @ModelAttribute(name="taco")
-    public Taco taco(){return new Taco();}
+    @ModelAttribute(name = "order")
+    public Order order() {
+        return new Order();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco() {
+        return new Taco();
+    }
 
     @GetMapping
-    public String showDesignForm(Model model){
+    public String showDesignForm(Model model) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(ingredients::add);
 
         Type[] types = Ingredient.Type.values();
-        for(Type type : types){
+        for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
         model.addAttribute("design", new Taco());
@@ -51,9 +56,9 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(@Valid @ModelAttribute("design") Taco taco, Errors error, @ModelAttribute Order order){
-        if(error.hasErrors()){
-            log.info("BOOOOOOOOO - your taco order failed" );
+    public String processDesign(@Valid @ModelAttribute("design") Taco taco, Errors error, @ModelAttribute Order order, Model model) {
+        if (error.hasErrors()) {
+            log.info("BOOOOOOOOO - your taco order failed");
             return "design";
         }
         Taco saved = tacoRepository.save(taco);
@@ -63,8 +68,8 @@ public class DesignTacoController {
         return "redirect:/orders/current";
     }
 
-    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type){
-        return ingredients.stream().filter(x-> x.getType().equals(type)).collect(Collectors.toList());
+    private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
+        return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
     }
 
 }
