@@ -1,9 +1,15 @@
 package com.example.tacocloud.web;
 
 import com.example.tacocloud.data.OrderRepository;
+import com.example.tacocloud.data.UserRepository;
 import com.example.tacocloud.domain.Order;
+import com.example.tacocloud.domain.User;
+import com.example.tacocloud.security.MyUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,10 +27,12 @@ import javax.validation.Valid;
 @SessionAttributes("orders")
 public class OrderController {
     private OrderRepository orderRepository;
+    private UserRepository userRepo;
 
     @Autowired
-    public OrderController(OrderRepository orderRepository){
+    public OrderController(OrderRepository orderRepository, UserRepository userRepo){
         this.orderRepository = orderRepository;
+        this.userRepo = userRepo;
     }
 
     @GetMapping("/current")
@@ -34,10 +42,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public String processOrder(@Valid Order order, Errors error, SessionStatus sessionStatus){
+    public String processOrder(@Valid Order order, Errors error, SessionStatus sessionStatus, Session session){
         if(error.hasErrors()){
             return "orderForm";
         }
+        Authentication fake = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails phake = (MyUserDetails) fake.getPrincipal();
+        User heyItsMe = userRepo.findById( phake.getId()).orElse(null);
+        order.setUser(heyItsMe);
         orderRepository.save(order);
         sessionStatus.setComplete();
         log.info("Order received: "+ order);

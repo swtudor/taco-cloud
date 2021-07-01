@@ -37,8 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authenticate")
                 .defaultSuccessUrl("/design")
                 .failureUrl("/login?error=true")
-////
-////                //       enableLogout[]
+                //       enableLogout[]
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
@@ -53,15 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable();
 
                 hamburglar.headers().frameOptions().disable();
-
-//                .ignoringAntMatchers("/h2-console/**")
-//
-//
-//
-//                .and()
-//                .headers()
-//                .frameOptions()
-//                .sameOrigin();
     }
 
     @Bean

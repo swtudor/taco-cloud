@@ -39,13 +39,7 @@ public class DesignTacoController {
 
     @GetMapping
     public String showDesignForm(Model model){
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredientRepository.findAll().forEach(ingredients::add);
-
-        Type[] types = Ingredient.Type.values();
-        for(Type type : types){
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-        }
+        getIngredients(model);
         model.addAttribute("design", new Taco());
         return "design";
     }
@@ -61,6 +55,16 @@ public class DesignTacoController {
 
         log.info("Processing taco design for " + taco.getName());
         return "redirect:/orders/current";
+    }
+
+    private Model getIngredients(Model model){
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(ingredients::add);
+        Type[] types = Ingredient.Type.values();
+        for(Type type :types){
+            model.addAttribute(type.toString().toLowerCase(),filterByType(ingredients, type));
+        }
+        return model;
     }
 
     private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type){
