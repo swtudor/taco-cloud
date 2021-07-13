@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Slf4j
 @Controller
@@ -50,6 +51,7 @@ public class OrderController {
         MyUserDetails phake = (MyUserDetails) fake.getPrincipal();
         User heyItsMe = userRepo.findById( phake.getId()).orElse(null);
         order.setUser(heyItsMe);
+        order.setCreatedAt(new Date());
         orderRepository.save(order);
         sessionStatus.setComplete();
         log.info("Order received: "+ order);

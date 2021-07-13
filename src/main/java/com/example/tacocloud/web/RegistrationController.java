@@ -41,8 +41,8 @@ public class RegistrationController {
     @PostMapping
     public String processRegistration(@ModelAttribute("newUser") RegistrationForm form) {
         User formUser = form.toUser(passwordEncoder);
-        log.info("does this hash???? " + formUser);
         userRepo.save(formUser);
+        log.info("does this hash???? " + formUser);
         return "redirect:/login";
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name="Taco_Order")
 public class Order {
     @NotBlank (message = "Name required to order")
-    private String name;
+private String name;
 
     @NotBlank(message = "Please give street address")
     private String street;
@@ -40,7 +40,7 @@ public class Order {
     private String ccCVV;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Date createdAt;
