@@ -3,10 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Taco Cloud</title>
+        <link rel="stylesheet" th:href="@{/styles.css}"/>
     </head>
     <body>
-
+    <div class="box">
         <h1>Welcome to the fantastic taco builder app....</h1>
+        <a th:href="@{/design}" id="another"><button>Design a taco!</button></a><br/>
         <img th:src="@{/images/taco.png}"/>
+    </div>
     </body>
 </html>
